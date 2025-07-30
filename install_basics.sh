@@ -2,4 +2,4 @@
 set -e
 
 apt-get update
-apt-get install sudo
+apt-get install sudo -y
