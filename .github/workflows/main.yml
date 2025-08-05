@@ -48,7 +48,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          platforms: linux/amd64
 
       - name: Build and push Docker image arm64
         if: matrix.os == 'ubuntu-24.04-arm'
@@ -57,4 +58,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}_arm64
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:arm64
+          platforms: linux/arm64
