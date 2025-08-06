@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: uommscrobotics/sfr_ros2
+  BUILDX_NO_DEFAULT_ATTESTATIONS: 1 # https://github.com/orgs/community/discussions/45969
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
@@ -67,6 +68,14 @@ jobs:
             password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Create and push manifest for latest
+          run: |
+            docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+              --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:amd64 \
+              --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:arm64
+  
+            docker manifest push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+        - name: Remove extra tags
           run: |
             docker manifest create ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
               --amend ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:amd64 \
