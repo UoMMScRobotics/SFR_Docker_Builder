@@ -53,6 +53,12 @@ jobs:
   # Based on https://github.com/juanjqo/dockerman/blob/main/.github/workflows/docker-image.yml
   create-and-push-manifest:
       runs-on: ubuntu-latest
+      # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+      permissions:
+        contents: read
+        packages: write
+        attestations: write
+        id-token: write
       needs: [build-and-push-image]
       steps:
         - name: Set up Docker CLI
